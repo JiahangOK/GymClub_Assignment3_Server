@@ -13,7 +13,7 @@ from sqlalchemy import MetaData
 from sqlalchemy import create_engine
 from sqlalchemy.orm import *
 
-HOST = "192.168.6.117"
+HOST = "172.30.114.24"
 
 # 创建flask_sqlalchemy基于sqlite的实例db
 app = Flask(__name__)
@@ -52,8 +52,9 @@ class userInfoTable(userdb.Model):
 class trainerInfoTable(userdb.Model):
     __tablename__ = 'trainerInfo'
 
-    trainer_name = userdb.Column(userdb.String, primary_key=True)
-    trainer_intro = userdb.Column(userdb.String, primary_key=True)
+    trainer_name = userdb.Column(userdb.String)
+    trainer_intro = userdb.Column(userdb.String)
+    trainer_tel = userdb.Column(userdb.String, primary_key=True)
 
     def __repr__(self):
         return 'table name is ' + self.username
@@ -122,10 +123,11 @@ def check_user():
                     trainer_name = picture_file_name.split(".")[0]
                     obj = trainerInfoTable.query.filter_by(trainer_name=trainer_name).first()
                     trainer_intro = obj.trainer_intro
+                    trainer_tel= obj.trainer_tel
                     print("trainer_name:", trainer_name)
                     trainer_image_url = "http://" + HOST + ":8080/userPicture?filename=" + phonenum + "/" + picture_file_name
                     data = {"trainer_image_url": trainer_image_url, "trainer_name": trainer_name,
-                            "trainer_intro": trainer_intro}
+                            "trainer_intro": trainer_intro,"trainer_tel":trainer_tel}
                     info_dict.get("trainer_info").append(data)
 
             # 遍历视频信息
