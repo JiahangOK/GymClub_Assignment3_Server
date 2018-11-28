@@ -55,6 +55,7 @@ class trainerInfoTable(userdb.Model):
     trainer_name = userdb.Column(userdb.String)
     trainer_intro = userdb.Column(userdb.String)
     trainer_tel = userdb.Column(userdb.String, primary_key=True)
+    trainer_email = userdb.Column(userdb.String)
 
     def __repr__(self):
         return 'table name is ' + self.username
@@ -124,10 +125,12 @@ def check_user():
                     obj = trainerInfoTable.query.filter_by(trainer_name=trainer_name).first()
                     trainer_intro = obj.trainer_intro
                     trainer_tel= obj.trainer_tel
+                    trainer_email = obj.trainer_email
                     print("trainer_name:", trainer_name)
                     trainer_image_url = "http://" + HOST + ":8080/userPicture?filename=" + phonenum + "/" + picture_file_name
                     data = {"trainer_image_url": trainer_image_url, "trainer_name": trainer_name,
-                            "trainer_intro": trainer_intro,"trainer_tel":trainer_tel}
+                            "trainer_intro": trainer_intro,"trainer_tel":trainer_tel,
+                            "trainer_email":trainer_email}
                     info_dict.get("trainer_info").append(data)
 
             # 遍历视频信息
